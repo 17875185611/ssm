@@ -1,0 +1,37 @@
+Using CATALINA_BASE:   "D:\tomcat\apache-tomcat-7.0.72"
+Using CATALINA_HOME:   "D:\tomcat\apache-tomcat-7.0.72"
+Using CATALINA_TMPDIR: "D:\tomcat\apache-tomcat-7.0.72\temp"
+Using JRE_HOME:        "D:\Program Files (x86)\Java\jdk1.8.0_31"
+Using CLASSPATH:       "D:\tomcat\apache-tomcat-7.0.72\bin\bootstrap.jar;D:\tomcat\apache-tomcat-7.0.72\bin\tomcat-juli.jar"
+
+d:\Users\king\Desktop>start Opera http://localhost:8080/springMvcProject/login.jsp 
+系统找不到文件 Opera。
+Using CATALINA_BASE:   "D:\tomcat\apache-tomcat-7.0.72"
+Using CATALINA_HOME:   "D:\tomcat\apache-tomcat-7.0.72"
+Using CATALINA_TMPDIR: "D:\tomcat\apache-tomcat-7.0.72\temp"
+Using JRE_HOME:        "D:\Program Files (x86)\Java\jdk1.8.0_31"
+Using CLASSPATH:       "D:\tomcat\apache-tomcat-7.0.72\bin\bootstrap.jar;D:\tomcat\apache-tomcat-7.0.72\bin\tomcat-juli.jar"
+
+d:\Users\king\Desktop>start Mozilla Firefox http://localhost:8080/springMvcProject/login.jsp 
+系统找不到文件 Mozilla。
+Using CATALINA_BASE:   "D:\tomcat\apache-tomcat-7.0.72"
+Using CATALINA_HOME:   "D:\tomcat\apache-tomcat-7.0.72"
+Using CATALINA_TMPDIR: "D:\tomcat\apache-tomcat-7.0.72\temp"
+Using JRE_HOME:        "D:\Program Files (x86)\Java\jdk1.8.0_31"
+Using CLASSPATH:       "D:\tomcat\apache-tomcat-7.0.72\bin\bootstrap.jar;D:\tomcat\apache-tomcat-7.0.72\bin\tomcat-juli.jar"
+
+d:\Users\king\Desktop>start iexplore http://localhost:8080/springMvcProject/login.jsp 
+Using CATALINA_BASE:   "D:\tomcat\apache-tomcat-7.0.72"
+Using CATALINA_HOME:   "D:\tomcat\apache-tomcat-7.0.72"
+Using CATALINA_TMPDIR: "D:\tomcat\apache-tomcat-7.0.72\temp"
+Using JRE_HOME:        "D:\Program Files (x86)\Java\jdk1.8.0_31"
+Using CLASSPATH:       "D:\tomcat\apache-tomcat-7.0.72\bin\bootstrap.jar;D:\tomcat\apache-tomcat-7.0.72\bin\tomcat-juli.jar"
+
+d:\Users\king\Desktop>start firefox http://localhost:8080/springMvcProject/login 
+Using CATALINA_BASE:   "D:\tomcat\apache-tomcat-7.0.72"
+Using CATALINA_HOME:   "D:\tomcat\apache-tomcat-7.0.72"
+Using CATALINA_TMPDIR: "D:\tomcat\apache-tomcat-7.0.72\temp"
+Using JRE_HOME:        "D:\Program Files (x86)\Java\jdk1.8.0_31"
+Using CLASSPATH:       "D:\tomcat\apache-tomcat-7.0.72\bin\bootstrap.jar;D:\tomcat\apache-tomcat-7.0.72\bin\tomcat-juli.jar"
+
+d:\Users\king\Desktop>start firefox http://localhost:8080/springMvcProject/login 

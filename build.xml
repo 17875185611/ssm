@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ant" basedir="." default="cleanClasses">
+	<!-- defult=build,那么就会执行target的name=build的语句 -->
+
+	<property name="src.dir" value="src" />
+	<!-- 定义src路径name等于src.dir -->
+
+	<property name="build.dir" value="WebContent/WEB-INF/classes" />
+
+	<property name="tomcat.home" value="D:/tomcat/apache-tomcat-7.0.72" />
+
+    <!-- 1.关闭tomcat -->
+	<target name="stop_tomcat" description="关闭tomcat">
+		<echo>关闭tomcat</echo>
+		<!--${tomcat.home}/bin就是tomcat的路径 -->
+		<exec executable="cmd" dir="${tomcat.home}/bin" failonerror="false"
+			append="true">
+			<env key="CATALINA_HOME" path="${tomcat.home}" />
+			<arg value="/c shutdown.bat" /><!--shutdown.bat就是关闭tomcat -->
+		</exec>
+	</target>
+	
+	<!-- 2.删除之前部署的war包 -->
+	<target name="deleteWar" depends="stop_tomcat">
+		<echo>关闭tomcat之后就删除之前部署的war包</echo>
+		<!-- 等待5秒钟,这样做是为了等待tomcat彻底关闭,如果还没关闭war包是删除不了 的 -->
+		<waitfor maxwait="5" maxwaitunit="second">
+			<available file="errors.log" />
+		</waitfor>
+
+		<delete dir="${tomcat.home}/webapps/*"></delete><!-- 删除war包生成的文件夹 -->
+		<delete file="${tomcat.home}/webapps/*.war"></delete><!-- 删除部署在webapps下的war包 -->
+
+	</target>
+	
+	<!-- 3.关闭了tomcat之后src下面的属性文件复制到存放编译文件的地方 -->
+	<target name="copy" depends="deleteWar">
+	      <echo>将属性文件复制到classes下</echo>
+	      <copy todir="${build.dir}"><!-- ${build.dir} 编译文件存放的地方 -->
+	           <fileset dir="${src.dir}"><!-- 将src下面的所有properties的文件复制 -->
+	                  <include name="*.properties" /><!-- 包含src下的所有properties文件,因为如果有多个就避免了一个一个复制 -->
+	           </fileset>
+	      </copy>
+	</target>
+	
+	<!-- 4.编译的时候需要将所有的jar包编译进去,否则会报错：找不到符号 -->
+	<path id="master-classpath">
+		<fileset file="WebContent/WEB-INF/lib/*.jar" />
+		<pathelement path="${build.dir}" />
+	</path>
+	
+	<!-- 5.复制了属性文件之后,编译src下的所有java文件 -->
+	<target name="build" description="编译" depends="copy">
+		<echo>编译java文件</echo>
+		<!-- ${build.dir}编译生成的classes文件存放的地方 -->
+		<javac destdir="${build.dir}" source="1.8" target="1.8"
+			includeantruntime="on">
+			<!-- 需要编译java文件的路径。${src.dir}就是src下面 -->
+			<src path="${src.dir}" />
+			<!-- refid 编译jar包路径的id -->
+			<classpath refid="master-classpath" /><!-- 将所需的jar包一起编译 refid是jar的path的id -->
+		</javac>
+	</target>
+	
+	<!--6.编译之后打成war包 -->
+	<target name="war" depends="build">
+		<echo>打war包</echo>
+		<!-- destfile war包的名字 webxml：web.xml的路径 -->
+		<war destfile="springMvcProject.war" webxml="WebContent/WEB-INF/web.xml">
+			<!-- 将非jar和非class文件拷贝到war包的对应路径下。 -->
+			<fileset dir="${basedir}/WebContent">
+				<include name="**/**.*" />
+			</fileset>
+		</war>
+	</target>
+	
+	<!-- 7.打成war包之后部署,将war包复制到tomcat路径下的webapps下面 -->
+	<target name="bushu" depends="war">
+		<echo>部署,将war包复制到webapps下</echo>
+		<copy file="springMvcProject.war" todir="${tomcat.home}/webapps" />
+	</target>
+	
+	<!-- 8.部署之后启动tomcat -->
+	<target name="start_tomcat" description="启动TOMCAT" depends="bushu">
+		<echo>启动tomcat</echo>
+		<!--${tomcat.home}/bin tomcat的bin目录下 -->
+		<exec executable="cmd" dir="${tomcat.home}/bin" failonerror="false"
+			output="${log.file}" append="true"><!--output="${log.file}" 生产日志文件 -->
+			<env key="CATALINA_HOME" path="${tomcat.home}" /><!-- ${tomcat.home}tomcat的路径 -->
+			<arg value="/c startup.bat" /><!-- startup.bat启动tomcat -->
+		</exec>
+	</target>
+	
+	<!-- 9.启动tomcat之后执行bat文件,bat就是启动浏览器,并打开指定的jsp路径 -->
+	<target name="bat" description="启动bat" depends="start_tomcat">
+		<echo>启动bat文件</echo>
+		<!-- dir bat文件的路径 -->
+		<exec executable="cmd" dir="d:/Users/king/Desktop"
+			failonerror="false" output="${log.file}" append="true">
+			<arg value="/c a.bat" /><!-- 启动bat文件 -->
+		</exec>
+	</target>
+	
+	<!-- 10.执行了bat文件之后 删除所有编译的classes文件 并且删除打成的war包 -->
+	<target name="cleanClasses" depends="bat">
+		<echo>执行bat文件之后删除war包,编译的文件不用删除会覆盖</echo>
+		<!-- includeemptydirs意思是就算文件夹是空的,也同样删除。如果没有的话空文件夹不会删除 -->
+		<delete verbose="true" includeemptydirs="true">
+			<!-- <fileset dir="${build.dir}"> 包含所有${build.dir}下的文件夹和文件 <include name="**/*" 
+				/> </fileset> -->
+			<fileset dir="${basedir}"><!-- 默认路径,就是工程下 -->
+				<include name="*.war" /><!-- 包含所有的war包 -->
+			</fileset>
+		</delete>
+	</target>
+	
+</project>

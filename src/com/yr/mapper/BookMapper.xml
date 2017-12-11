@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yr.mapper.BookMapper">
+
+     <select id="getBalance" parameterType="int" resultType="Account">
+          SELECT balance FROM `account` WHERE id=#{id}
+     </select>
+     
+     <select id="getBookPrice" parameterType="String" resultType="Book">
+          SELECT price FROM `book` WHERE isbn=#{isbn}
+     </select>
+     
+     <select id="getBookStock" parameterType="String" resultType="BookStock">
+          SELECT stock FROM `book_stock` WHERE isbn=#{isbn}
+     </select>
+     
+     <update id="deductMoney" parameterType="Account">
+          UPDATE account SET balance=#{balance} WHERE id=#{id}
+     </update>
+     
+     <update id="deductStock" parameterType="BookStock">
+          UPDATE `book_stock` SET stock=#{stock} WHERE isbn=#{id}
+     </update>
+</mapper>
