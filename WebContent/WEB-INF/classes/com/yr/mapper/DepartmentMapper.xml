@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yr.mapper.DepartmentMapper">
+
+	<select id="queryDepartment" resultType="Department">
+		SELECT depa_id
+		depaid,departmentName FROM department;
+	</select>
+	
+	<select id="queryOneDepartment" parameterType="int" resultType="Department">
+		SELECT depa_id
+		depaid,departmentName FROM department WHERE depa_id=#{id};
+	</select>
+	
+	<delete id="deleteDepa" parameterType="int">
+	    DELETE FROM department WHERE depa_id=(SELECT Depart_Id FROM emp WHERE ID=#{id})
+	</delete>
+	
+	<insert id="addDepa" parameterType="String">
+	   INSERT INTO
+		department(departmentName)
+		VALUES(#{departmentName})
+	</insert>
+	
+	<delete id="deleteDepaForId" parameterType="int">
+	     DELETE FROM department WHERE depa_id=#{id}
+	</delete>
+	
+	<update id="updateDepa" parameterType="Department">
+	     UPDATE department SET departmentName=#{departmentName} WHERE depa_id=#{depaid}
+	</update>
+</mapper>

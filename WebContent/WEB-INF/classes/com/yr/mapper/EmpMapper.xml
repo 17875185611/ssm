@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yr.mapper.EmpMapper">
+
+	<select id="queryAll" resultMap="resultMapClass">
+		SELECT * FROM emp e,department d
+		WHERE e.Depart_Id=d.depa_id
+	</select>
+
+	<resultMap type="Emp" id="resultMapClass">
+		<id property="id" column="id" />
+		<result property="iphone" column="Phone" />
+		<result property="last_Name" column="lastName" />
+		<result property="email" column="email" />
+		<result property="gender" column="gender" />
+		<result property="address" column="address" />
+		<association property="department" javaType="Department">
+			<id property="depaid" column="depa_id" />
+			<result property="departmentName" column="departmentName" />
+		</association>
+	</resultMap>
+
+	<select id="queryDepartment" resultType="Department">
+		SELECT depa_id
+		depaid,departmentName FROM department;
+	</select>
+
+	<insert id="addEmp" parameterType="Emp">
+		INSERT INTO
+		emp(lastName,email,gender,Depart_id,address,phone)
+		VALUES(#{last_Name},#{email},#{gender},#{department.depaid},#{address},#{iphone})
+	</insert>
+
+	<update id="updateEmp" parameterType="Emp">
+		UPDATE emp SET
+		lastName=#{last_Name},email=#{email},gender=#{gender},Depart_Id=#{department.depaid},address=#{address},Phone=#{iphone}
+		WHERE ID=#{id}
+	</update>
+	
+	<select id="queryEmp" parameterType="int" resultMap="resultMapClass2">
+	    SELECT * FROM emp e,department d
+		WHERE e.Depart_Id=d.depa_id AND e.ID=#{id}
+	</select>
+	
+	<resultMap type="Emp" id="resultMapClass2">
+		<id property="id" column="id" />
+		<result property="iphone" column="Phone" />
+		<result property="last_Name" column="lastName" />
+		<result property="email" column="email" />
+		<result property="gender" column="gender" />
+		<result property="address" column="address" />
+		<collection property="department" ofType="Department">
+			<id property="depaid" column="Depart_Id" />
+			<result property="departmentName" column="departmentName" />
+		</collection>
+	</resultMap>
+	
+	<delete id="deleteEmp" parameterType="int">
+	    DELETE FROM emp WHERE ID=#{id}
+	</delete>
+	
+	<delete id="deleteEmp2" parameterType="int">
+	    DELETE FROM emp WHERE Depart_Id=#{id}
+	</delete>
+	
+	<select id="empDepaCount" parameterType="int" resultType="int">
+	    SELECT count(*) FROM emp WHERE Depart_Id=(SELECT Depart_Id FROM emp WHERE ID=#{id});
+	</select>
+	
+</mapper>
